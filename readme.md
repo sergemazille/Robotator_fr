@@ -6,7 +6,7 @@ Ce site est destiné à présenter le projet, la documentation et de permettre a
 
 ## Documentation développeur
 
-[Voir la documentation complète (en cours d'écriture)](http://www.robotator.fr/documentation/documentation.html).
+[Voir la documentation complète (en cours d'écriture)](http://www.robotator.fr/documentation).
 
 ## Manuel d'utilisation
 
