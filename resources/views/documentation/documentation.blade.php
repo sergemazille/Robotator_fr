@@ -664,7 +664,7 @@ La version utilisée dans ce projet est Raspbian, une distribution taillée sur 
 <p>Le plus simple est de partir d&#8217;une page blanche, et d&#8217;installer une image propre téléchargée sur <a href="https://www.raspberrypi.org/downloads/raspbian/">le site de Raspberry Pi</a>.</p>
 </div>
 <div class="paragraph">
-<p>L&#8217;installation d&#8217;un système d&#8217;exploitation dépassant le cadre de cette documentation, les instructions à suivre <a href="https://www.raspberrypi.org/documentation/installation/installing-URL::asset('images/documentation/README.md">sont également disponibles sur le même site</a>.</p>
+<p>L&#8217;installation d&#8217;un système d&#8217;exploitation dépassant le cadre de cette documentation, les instructions à suivre <a href="https://www.raspberrypi.org/documentation/installation/installing-images/README.md">sont également disponibles sur le même site</a>.</p>
 </div>
 <div class="paragraph">
 <p>La version courante utilisée sur Robotator est 'Raspbian Jessie'.</p>
@@ -910,6 +910,16 @@ app.set('views', __dirname + '/public');</code></pre>
 <div class="sect3">
 <h4 id="_api_rest"><a class="link" href="#_api_rest">2.3.3. API REST</a></h4>
 <div class="paragraph">
+<p>Afin de transmettre les commandes de l&#8217;utilisateur entre l&#8217;interface client et l&#8217;application serveur, c&#8217;est la technologie AJAX qui a été choisie.</p>
+</div>
+<div class="paragraph">
+<p>Les informations nécessaires au bon fonctionnement de ce mécanisme sont stockées dans les attributs des boutons, directement dans le DOM de l&#8217;interface.</p>
+</div>
+<div class="paragraph">
+<p>Quand l&#8217;utilisateur clique sur un bouton, l&#8217;information est extraite, par exemple l&#8217;id #1 du bouton de marche avant.
+Elle est ensuite envoyée en POST à la bonne adresse du serveur, dans notre exemple '/motor' qui va la traiter ou la transmettre en série à la carte de contrôle des moteurs, c&#8217;est à dire l&#8217;Arduberry et son motor shield.</p>
+</div>
+<div class="paragraph">
 <div class="title">Contrôle des moteurs</div>
 <p>L&#8217;interface utilisateur donne accès au contrôle des moteurs via des boutons possédant chacun un identifiant indiquant la direction à donner à Robotator.</p>
 </div>
@@ -921,7 +931,7 @@ app.set('views', __dirname + '/public');</code></pre>
 Robotator tournera alors sur place dans le sens inverse des aiguilles d&#8217;une montre.</p>
 </div>
 <div class="paragraph">
-<p>Lorsqu&#8217;un bouton est enclenché, la partie client récupère et transmet cette information au serveur qui la traite de la manière suivante :</p>
+<p>Lorsqu&#8217;un bouton est cliqué, la partie client récupère et transmet cette information au serveur qui la traite de la manière suivante :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -933,10 +943,72 @@ Robotator tournera alors sur place dans le sens inverse des aiguilles d&#8217;un
 </div>
 </div>
 <div class="paragraph">
-<p>Le serveur récupère l&#8217;information du 'body' de la requête et la passe à l&#8217;Arduberry via transmission série, puis indique à la partie cliente que la requête est traitée.</p>
+<p>Le serveur récupère l&#8217;information du 'body' de la requête et la passe à l&#8217;Arduberry via transmission série, puis indique à la partie cliente que la requête est traitée avec la commande 'res.end()'.</p>
 </div>
 <div class="paragraph">
 <p>Nous verrons dans les parties correspondantes comment est récupérée l&#8217;information côté client et côté Arduberry.</p>
+</div>
+<div class="paragraph">
+<div class="title">Contrôle du turbo</div>
+<p>Le contrôle du turbo est assez similaire dans le sens où la requête envoyée à la carte de contrôle moteurs provoque une modification de la vitesse de rotation des moteurs.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">app.post('/turbo', function (req, res) {
+    let turboState = req.body.turboState; // Intercepte la requête (t = turbo, n = normal)
+    serial.write(turboState); // Passe la requête au contrôleur moteur(Arduberry)
+    res.end();
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Il y a deux états possibles :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>le mode normal dans lequel les moteurs tournent à environ 70% de leur vitesse est représenté par le caractère 'n', défini par la constante TURBO_OFF.</p>
+</li>
+<li>
+<p>et le mode turbo où les moteurs derniers tournent à pleine puissance, et qui est représenté par le caractère 't', défini par la constante TURBO_ON.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>En réalité, ces constantes ne sont pas utilisées ici puisqu&#8217;une fois la requête interceptée, elle est transmise en série directement à l&#8217;Arduberry.</p>
+</div>
+<div class="paragraph">
+<p>Il ne reste plus qu&#8217;à avertir le client que la requête est traitée.</p>
+</div>
+<div class="paragraph">
+<div class="title">Contrôle de l&#8217;audio</div>
+<p>Plusieurs éléments entrent en ligne de compte lors de cette requête.</p>
+</div>
+<div class="paragraph">
+<p>Côté client, l&#8217;utilisateur appuie sur l&#8217;un des trois boutons de couleur qui déclenchent le son correspondant.
+Ainsi le son qui sera joué est fonction de la couleur du bouton.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">app.post('/audio', function (req, res) {
+    let couleur = req.body.couleur;
+    player.openFile(__dirname + '/public/audio/' + couleur + '.mp3');
+    res.end();
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La requête passe donc la couleur du bouton cliqué, permettant ainsi au serveur de savoir quel son jouer.
+En effet, le nom des fichiers audio correspond aux couleurs disponibles : vert.mp3, jaune.mp3, rouge.mp3.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">player.openFile(__dirname + '/public/audio/' + couleur + '.mp3');</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>C&#8217;est le module Node 'mplayer' qui est en charge de jouer le fichier audio.
+Il suffit de passer le chemin vers le bon fichier à sa méthode openFile();</p>
 </div>
 </div>
 </div>
@@ -956,7 +1028,7 @@ Robotator tournera alors sur place dans le sens inverse des aiguilles d&#8217;un
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2016-04-15 17:39:24 Paris, Madrid (heure d'été)
+Last updated 2016-04-17 11:17:38 Paris, Madrid (heure d'été)
 </div>
 </div>
 </body>
