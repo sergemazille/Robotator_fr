@@ -463,7 +463,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel3">
 <li><a href="#_accès_depuis_un_navigateur_internet">2.3.1. Accès depuis un navigateur Internet</a></li>
 <li><a href="#_accès_depuis_l_application_mobile">2.3.2. Accès depuis l&#8217;application mobile</a></li>
-<li><a href="#_api_rest">2.3.3. API REST</a></li>
+<li><a href="#_communication_avec_le_serveur">2.3.3. Communication avec le serveur</a></li>
 </ul>
 </li>
 <li><a href="#_arduberry">2.4. Arduberry</a></li>
@@ -820,10 +820,10 @@ Le code est contenu dans le fichier server.js et <a href="https://github.com/ser
 </div>
 </div>
 <div class="paragraph">
-<p>Chaque commande lancée depuis l&#8217;interface utilisateur est interceptée par le serveur grâce au mécanisme de requêtes XMLHttpRequest (AJAX) sous forme d&#8217;API REST.</p>
+<p>Chaque commande lancée depuis l&#8217;interface utilisateur est interceptée par le serveur grâce au mécanisme de requêtes XMLHttpRequest (AJAX).</p>
 </div>
 <div class="paragraph">
-<p>Il existe deux manières d&#8217;accéder à l&#8217;API du serveur : soit directement par un navigateur Internet, soit par l&#8217;application mobile.</p>
+<p>Il existe deux manières d&#8217;accéder au serveur : soit directement par un navigateur Internet, soit par l&#8217;application mobile.</p>
 </div>
 <div class="sect3">
 <h4 id="_accès_depuis_un_navigateur_internet"><a class="link" href="#_accès_depuis_un_navigateur_internet">2.3.1. Accès depuis un navigateur Internet</a></h4>
@@ -878,7 +878,7 @@ app.set('views', __dirname + '/public');</code></pre>
 </div>
 <div class="paragraph">
 <div class="title">Rendu de l&#8217;interface</div>
-<p>Quand l&#8217;utilisateur atteint le serveur par son navigateur Internet, la requête est interceptée par l&#8217;API qui lui renvoie la page correspondant à l&#8217;interface :</p>
+<p>Quand l&#8217;utilisateur atteint le serveur par son navigateur Internet, la requête est interceptée par le serveur qui lui renvoie la page correspondant à l&#8217;interface :</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -908,7 +908,7 @@ app.set('views', __dirname + '/public');</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_api_rest"><a class="link" href="#_api_rest">2.3.3. API REST</a></h4>
+<h4 id="_communication_avec_le_serveur"><a class="link" href="#_communication_avec_le_serveur">2.3.3. Communication avec le serveur</a></h4>
 <div class="paragraph">
 <p>Afin de transmettre les commandes de l&#8217;utilisateur entre l&#8217;interface client et l&#8217;application serveur, c&#8217;est la technologie AJAX qui a été choisie.</p>
 </div>
@@ -1028,7 +1028,7 @@ Il suffit de passer le chemin vers le bon fichier à sa méthode openFile();</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2016-04-17 11:17:38 Paris, Madrid (heure d'été)
+Last updated 2016-04-17 11:34:42 Paris, Madrid (heure d'été)
 </div>
 </div>
 </body>
