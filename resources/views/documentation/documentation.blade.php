@@ -484,7 +484,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="videoblock">
 <div class="content">
-<iframe width="384" height="288" src="https://www.youtube.com/embed/6b75D3b5nag?rel=0" frameborder="0" allowfullscreen></iframe>
+<iframe width="384" height="288" src="https://www.youtube.com/embed/XQC1UZk7Y3s?rel=0" frameborder="0" allowfullscreen></iframe>
 </div>
 </div>
 <div class="paragraph">
@@ -1028,7 +1028,7 @@ Il suffit de passer le chemin vers le bon fichier à sa méthode openFile();</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.1<br>
-Last updated 2016-04-17 11:34:42 Paris, Madrid (heure d'été)
+Last updated 2016-04-23 15:20:05 Paris, Madrid (heure d'été)
 </div>
 </div>
 </body>
